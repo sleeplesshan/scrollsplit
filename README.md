@@ -116,7 +116,7 @@ Turn off launch at login in the app, quit from the menu bar, and delete `ScrollS
 
 ### License
 
-No project license has been selected. Public availability does not by itself grant permission to reuse or redistribute this project's code.
+This project is released under the MIT License. See [LICENSE](LICENSE).
 
 ## 한국어
 
@@ -215,7 +215,7 @@ Magic Mouse, 특수 드라이버의 부드러운 스크롤, 원격 데스크톱,
 
 ### 라이선스
 
-프로젝트 라이선스는 아직 지정하지 않았습니다. 공개 저장소라는 사실만으로 코드의 재사용·재배포 권한이 부여되지는 않습니다.
+이 프로젝트는 MIT License로 배포됩니다. [LICENSE](LICENSE)를 참고하세요.
 
 ## Project structure · 프로젝트 구조
 
