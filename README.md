@@ -10,7 +10,14 @@ A native macOS menu bar app that controls natural scrolling independently for yo
 
 [English](#english) · [한국어](#한국어)
 
-![ScrollSplit running on macOS with natural scrolling off for the mouse and on for the trackpad](docs/screenshot.png)
+![ScrollSplit in English with independent mouse and trackpad scrolling settings](docs/screenshot.png)
+
+<details>
+<summary>한국어 화면 · Korean interface</summary>
+
+![ScrollSplit Korean interface](docs/screenshot-ko.png)
+
+</details>
 
 ## English
 
@@ -26,11 +33,12 @@ Keep familiar wheel scrolling on your mouse and natural gestures on your trackpa
 - Independent natural scrolling switches for each device type.
 - Vertical and horizontal scrolling, including Shift + wheel.
 - Menu bar controls for settings, pause/resume, and quit.
+- English by default, with a persistent English / Korean language toggle.
 - Optional launch at login.
 - A scrollable test document with the last detected device and an input counter.
 - Accessibility permission guidance and recovery after sleep or an event-tap timeout.
 
-The app reads the natural-scrolling flag on each event and reverses it only when needed. Your macOS preference stays unchanged. Pausing or quitting restores normal system behavior immediately. The app interface is currently in Korean; this README is available in English and Korean.
+The app reads the natural-scrolling flag on each event and reverses it only when needed. Your macOS preference stays unchanged. Pausing or quitting restores normal system behavior immediately. The app opens in English by default. Switch instantly between **English** and **한국어** using the language toggle at the bottom of the window. Your choice is saved across restarts, independently of your Mac’s language.
 
 ### Build and run
 
@@ -57,17 +65,26 @@ This repository contains source and build scripts, not a notarized binary distri
 SIGN_IDENTITY='Your signing certificate name' bash scripts/build.sh
 ```
 
+For subsequent builds on this Mac, save your signing identity locally:
+
+```sh
+git config --local scrollsplit.signingIdentity 'Your signing certificate name'
+bash scripts/build.sh
+```
+
+This Git setting stays on your machine and is not committed. `SIGN_IDENTITY` takes precedence; without either setting, the build falls back to ad-hoc signing. Reusing the same certificate and bundle identifier keeps the app’s signing identity stable across updates.
+
 ### First-time setup
 
-1. Open ScrollSplit and click **권한 허용하기** (Allow permission).
+1. Open ScrollSplit and click **Allow Access**.
 2. Open **System Settings → Privacy & Security → Accessibility** and enable **ScrollSplit**. If it is missing, use `+` to add the installed app.
 3. The app checks permission about every two seconds. If it still cannot connect, quit and reopen it.
 4. Leave the mouse switch off and the trackpad switch on for the default combination.
 5. Try both devices in the test document and in your usual apps.
 
-Closing the window keeps the app running in the menu bar. Enable **로그인 시 실행** (Launch at login) to start it with your Mac account. If macOS requires approval for the login item, the app opens the relevant settings.
+Closing the window keeps the app running in the menu bar. Enable **Launch at login** to start it with your Mac account. If macOS requires approval for the login item, the app opens the relevant settings.
 
-Rebuilding or moving an ad-hoc-signed app can invalidate its Accessibility permission. Remove the old entry and add the installed app again if needed.
+Rebuilding or moving an ad-hoc-signed app can invalidate its Accessibility permission, even when the old switch still appears enabled. Click **Already allowed?** in the app for help: remove ScrollSplit from Accessibility with `−`, add the current installed copy with `+`, enable it, then quit and reopen the app. **Show App** reveals the exact running copy in Finder. When changing signing certificates, this one-time reauthorization may also be required.
 
 ### How it works
 
@@ -115,11 +132,12 @@ No project license has been selected. Public availability does not by itself gra
 - 마우스와 트랙패드의 자연스러운 스크롤을 각각 설정합니다.
 - 세로·가로 스크롤과 Shift + 휠에 적용합니다.
 - 메뉴 막대에서 설정 열기, 일시 정지·재개, 종료가 가능합니다.
+- 기본 영어 UI와 설정이 저장되는 영어·한국어 전환 토글을 제공합니다.
 - 로그인 시 자동 실행을 선택할 수 있습니다.
 - 테스트 문서에서 마지막 입력 기기와 입력 횟수를 확인합니다.
 - 손쉬운 사용 권한을 안내하고, 잠자기 복귀나 이벤트 탭 시간 초과 시 연결을 복구합니다.
 
-입력마다 시스템의 자연스러운 스크롤 적용 여부를 확인하여 필요한 경우에만 방향을 바꿉니다. macOS 설정은 변경하지 않으며, 앱을 일시 정지하거나 종료하면 시스템 기본 동작으로 돌아갑니다. 앱 화면은 현재 한국어이며, README는 영어·한국어로 제공합니다.
+입력마다 시스템의 자연스러운 스크롤 적용 여부를 확인하여 필요한 경우에만 방향을 바꿉니다. macOS 설정은 변경하지 않으며, 앱을 일시 정지하거나 종료하면 시스템 기본 동작으로 돌아갑니다. 앱의 기본 언어는 영어입니다. 창 하단의 **English / 한국어** 토글로 즉시 전환할 수 있으며, 선택한 언어는 Mac의 언어 설정과 별도로 저장되어 재실행 후에도 유지됩니다.
 
 ### 빌드 및 실행
 
@@ -146,9 +164,18 @@ open "$HOME/Applications/ScrollSplit.app"
 SIGN_IDENTITY='인증서 이름' bash scripts/build.sh
 ```
 
+이 Mac에서 이후 빌드에도 같은 인증서를 사용하려면 로컬 설정에 저장하세요.
+
+```sh
+git config --local scrollsplit.signingIdentity '인증서 이름'
+bash scripts/build.sh
+```
+
+이 Git 설정은 현재 Mac에만 저장되고 커밋되지 않습니다. `SIGN_IDENTITY`가 우선하며, 둘 다 없으면 ad-hoc 서명을 사용합니다. 같은 인증서와 번들 ID를 유지하면 업데이트 후에도 앱의 서명 식별값이 유지됩니다.
+
 ### 처음 설정하기
 
-1. 앱에서 **권한 허용하기**를 누릅니다.
+1. 앱은 영어로 시작합니다. 하단에서 **한국어**를 선택한 뒤 **권한 허용하기**를 누릅니다. 영어에서는 **Allow Access**입니다.
 2. **시스템 설정 → 개인정보 보호 및 보안 → 손쉬운 사용**에서 **ScrollSplit**을 켭니다. 목록에 없으면 `+`로 설치한 앱을 추가합니다.
 3. 앱은 약 2초마다 권한 상태를 확인합니다. 연결되지 않으면 앱을 종료하고 다시 실행하세요.
 4. 기본 조합은 마우스의 자연스러운 스크롤 **끔**, 트랙패드의 자연스러운 스크롤 **켬**입니다.
@@ -156,7 +183,7 @@ SIGN_IDENTITY='인증서 이름' bash scripts/build.sh
 
 창을 닫아도 메뉴 막대에서 계속 실행됩니다. **로그인 시 실행**을 켜면 Mac 계정 로그인 시 시작합니다. 로그인 항목 승인이 필요하면 해당 시스템 설정이 열립니다.
 
-ad-hoc 서명된 앱을 다시 빌드하거나 이동하면 손쉬운 사용 권한이 풀릴 수 있습니다. 이 경우 기존 항목을 제거하고 설치한 앱을 다시 추가하세요.
+ad-hoc 서명된 앱을 다시 빌드하거나 이동하면, 기존 스위치가 켜져 있어도 새 앱의 손쉬운 사용 권한이 풀릴 수 있습니다. 앱의 **이미 허용했는데 안 되나요?**에서 복구 방법을 확인하세요. 손쉬운 사용에서 기존 ScrollSplit을 `−`로 제거하고, 현재 설치한 앱을 `+`로 추가하여 허용한 뒤 앱을 다시 실행합니다. **앱 위치 보기**는 실제 실행 중인 앱을 Finder에 표시합니다. 서명 인증서를 바꿀 때도 한 번의 재허용이 필요할 수 있습니다.
 
 ### 동작 방식
 
@@ -203,7 +230,7 @@ ScrollSplit/
 ├── scripts/
 │   ├── build.sh               # Release build, app bundle, signing
 │   └── icon.swift             # Local app icon generation
-└── docs/screenshot.png         # Screenshot of the running app
+└── docs/                       # English and Korean app screenshots
 ```
 
 ## References · 참고 자료

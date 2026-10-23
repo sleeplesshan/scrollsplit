@@ -7,6 +7,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var statusItem: NSStatusItem!
     private var pauseItem: NSMenuItem!
     private var infoItem: NSMenuItem!
+    private var settingsItem: NSMenuItem!
+    private var quitItem: NSMenuItem!
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         // Avoid duplicate event taps that would reverse the same input twice.
@@ -44,21 +46,23 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         infoItem = NSMenuItem(title: "ScrollSplit", action: nil, keyEquivalent: "")
         menu.addItem(infoItem)
         menu.addItem(.separator())
-        let settings = NSMenuItem(title: "ScrollSplit 설정…", action: #selector(showWindow), keyEquivalent: ",")
-        settings.target = self
-        menu.addItem(settings)
-        pauseItem = NSMenuItem(title: "일시 정지", action: #selector(toggleEnabled), keyEquivalent: "p")
+        settingsItem = NSMenuItem(title: "", action: #selector(showWindow), keyEquivalent: ",")
+        settingsItem.target = self
+        menu.addItem(settingsItem)
+        pauseItem = NSMenuItem(title: "", action: #selector(toggleEnabled), keyEquivalent: "p")
         pauseItem.target = self
         menu.addItem(pauseItem)
         menu.addItem(.separator())
-        let quit = NSMenuItem(title: "ScrollSplit 종료", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
-        menu.addItem(quit)
+        quitItem = NSMenuItem(title: "", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
+        menu.addItem(quitItem)
         statusItem.menu = menu
     }
 
     private func updateMenu() {
         guard statusItem != nil else { return }
-        pauseItem.title = model.enabled ? "일시 정지" : "스크롤 분리 시작"
+        settingsItem.title = model.text("ScrollSplit Settings…", "ScrollSplit 설정…")
+        quitItem.title = model.text("Quit ScrollSplit", "ScrollSplit 종료")
+        pauseItem.title = model.enabled ? model.text("Pause", "일시 정지") : model.text("Resume ScrollSplit", "스크롤 분리 시작")
         infoItem.title = model.statusTitle
         statusItem.button?.toolTip = "ScrollSplit · \(model.statusTitle)"
         statusItem.button?.appearsDisabled = !model.running

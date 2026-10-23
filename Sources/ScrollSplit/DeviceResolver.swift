@@ -5,7 +5,8 @@ import Darwin
 
 struct DeviceReading {
     var device: ScrollDevice
-    var name: String
+    // Hardware-reported names stay unchanged; nil is localized by the UI.
+    var name: String?
     var exact: Bool
 }
 
@@ -71,8 +72,7 @@ final class DeviceResolver {
             phase: event.getIntegerValueField(.scrollWheelEventScrollPhase),
             momentum: event.getIntegerValueField(.scrollWheelEventMomentumPhase)
         )
-        let name = device == .mouse ? "휠 마우스" : device == .trackpad ? "트랙패드 제스처" : "확인되지 않은 연속 스크롤"
-        return DeviceReading(device: device, name: name, exact: false)
+        return DeviceReading(device: device, name: nil, exact: false)
     }
 
     private func registryDevice(_ id: UInt64) -> DeviceReading? {
@@ -110,6 +110,6 @@ final class DeviceResolver {
         }
         guard isTrackpad || isMouse else { return nil }
         return DeviceReading(device: isTrackpad ? .trackpad : .mouse,
-                             name: product ?? (isTrackpad ? "트랙패드" : "마우스"), exact: true)
+                             name: product, exact: true)
     }
 }
